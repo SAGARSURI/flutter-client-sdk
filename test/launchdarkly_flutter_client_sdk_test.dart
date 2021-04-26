@@ -488,7 +488,7 @@ List<LDValue> ldValueTestValues =
   , LDValue.fromCodecValue({'a': {}, 'b': [false, null], 'c': {'k': 'abc'}})];
 
 List<MethodCall> callQueue = [];
-dynamic callReturn = null;
+dynamic callReturn;
 MethodCall get takeCall => callQueue.removeAt(0);
 
 void expectCall(String name, dynamic arguments) => expect(takeCall, isMethodCall(name, arguments: arguments));
@@ -551,7 +551,7 @@ void testLDClient() {
   });
 
   test('boolVariation', () async {
-    await Future.forEach([false, true], (val) async {
+    await Future.forEach<bool>([false, true], (val) async {
       callReturn = val;
       expect(await LDClient.boolVariation('flagKey', !val), equals(val));
       expectCall('boolVariation', {'flagKey': 'flagKey', 'defaultValue': !val});
@@ -645,7 +645,7 @@ void testLDClient() {
   });
 
   test('jsonVariation', () async {
-    await Future.forEach(ldValueTestValues, (val) async {
+    await Future.forEach<LDValue>(ldValueTestValues, (val) async {
       callReturn = val.codecValue();
       expect(await LDClient.jsonVariation('flagKey', LDValue.ofBool(true)), equals(val));
       expectCall('jsonVariation', {'flagKey': 'flagKey', 'defaultValue': true });
@@ -691,7 +691,7 @@ void testLDClient() {
   });
 
   test('setOnline', () async {
-    Future.forEach([false, true], (val) async {
+    Future.forEach<bool>([false, true], (val) async {
       await LDClient.setOnline(val);
       expectCall('setOnline', {'online': val});
     });

@@ -194,7 +194,7 @@ abstract class LDValue {
 
 /// Builder for constructing an [LDValueType.ARRAY] typed [LDValue].
 class LDValueArrayBuilder {
-  List<LDValue> _builder = new List();
+  List<LDValue> _builder = [];
   bool _copyOnWrite = false;
 
   /// Append an [LDValue] to the builder.
